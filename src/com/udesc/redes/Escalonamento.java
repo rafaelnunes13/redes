@@ -36,7 +36,7 @@ public class Escalonamento {
         while(posicoes.size() > 0) {
 
             for (i = 0; i < posicoes.size(); i++) {
-                //System.out.println(posicoes.get(i).toString());
+                
                 if (destino == 0) {
 
                     destino = posicoes.get(i);
@@ -48,8 +48,6 @@ public class Escalonamento {
                     distancia = Math.abs(atual - destino);
                 }
             }
-
-            //System.out.println("Atual: " + atual + ". Destino: " + destino);
 
             posicoesAux.add(destino);
             posicoes.remove(destino);
@@ -69,7 +67,7 @@ public class Escalonamento {
         return total;
     }
 
-    public int scan(ArrayList<Integer> posicoes, Integer inicio, boolean circular){
+    public int scan(ArrayList<Integer> posicoes, Integer inicio, boolean circular) {
 
         int i;
         int distancia = 0;
@@ -81,19 +79,21 @@ public class Escalonamento {
 
         Collections.sort(posicoes);
 
-        for (i = 0; i < posicoes.size(); i++){
+        for (i = 0; i < posicoes.size(); i++) {
 
-            if (posicoes.get(i) >= inicio){
+            posicao = posicoes.get(i);
+
+            if (posicao >= inicio) {
                 break;
             }
         }
 
-        if ((posicoes.size() - 1) / 2 > i) {
-            sobe = false;
-            proximo = i == 0 ? 0 : (i - 1);
-        }else{
+        if ((inicio == 0) || (((posicoes.size() - 1) / 2 <= i) && i != posicoes.size())) {
             sobe = true;
             proximo = i;
+        }else{
+            sobe = false;
+            proximo = i == 0 ? 0 : (i - 1);
         }
 
         if(!circular){
