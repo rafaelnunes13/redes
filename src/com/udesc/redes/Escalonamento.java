@@ -76,6 +76,7 @@ public class Escalonamento {
         int proximo = 0;
         Integer posicao;
         boolean sobe;
+        boolean fim = false;
         ArrayList<Integer> posicoesAux = new ArrayList<Integer>();
 
         Collections.sort(posicoes);
@@ -95,23 +96,49 @@ public class Escalonamento {
             proximo = i;
         }
 
-        while (posicoes.size() > 0) {
+        if(!circular){
 
-            if (sobe && proximo >= posicoes.size()){
+            while (posicoes.size() > 0) {
 
-                if(!circular) {
-                    proximo--;
-                }else{
+                if (sobe && proximo >= posicoes.size()){
+
                     proximo = 0;
+                }
+
+                posicao = posicoes.get(proximo);
+                posicoesAux.add(posicao);
+                posicoes.remove(proximo);
+
+                if(!sobe && proximo > 0){
+                    proximo --;
                 }
             }
 
-            posicao = posicoes.get(proximo);
-            posicoesAux.add(posicao);
-            posicoes.remove(proximo);
+        }else{
 
-            if(!sobe && proximo > 0){
-                proximo --;
+            while (posicoes.size() > 0) {
+
+                posicao = posicoes.get(proximo);
+                posicoesAux.add(posicao);
+                posicoes.remove(proximo);
+
+                if(!sobe && proximo == 0){
+                    fim = true;
+                }else if(sobe && proximo == (posicoes.size() - 1)){
+                    fim = true;
+                }
+
+                if(!sobe && !fim){
+                    proximo--;
+                }else if(!sobe && posicoes.size() > 0 && fim){
+
+                    proximo = posicoes.size() - 1;
+                }
+
+                if(sobe && posicoes.size() > 0 && fim && (proximo != (posicoes.size() - 1))){
+
+                    proximo = 0;
+                }
             }
         }
 
